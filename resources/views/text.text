@@ -1,0 +1,54 @@
+app/
+├── Http/
+│   └── Controllers/
+│       └── Admin/
+│           └── AccessControl/
+│               ├── RoleController.php
+│               └── PermissionController.php
+
+resources/
+└── views/
+    └── admin/
+        └── access_control/
+            ├── roles/
+            │   └── index.blade.php
+            └── permissions/
+                └── edit.blade.php
+
+app/
+└── Models/
+    ├── Role.php
+    └── Permission.php
+
+
+use App\Models\Permission;
+use App\Models\PermissionCategory;
+use Illuminate\Database\Seeder;
+
+class PermissionSeeder extends Seeder
+{
+    public function run()
+    {
+        // Define modules and their CRUD actions in order
+        $modules = [
+            'Users'     => ['create', 'view', 'edit', 'delete'],
+            'Roles'     => ['create', 'view', 'edit', 'delete'],
+            'Products'  => ['create', 'view', 'edit', 'delete'],
+            'Orders'    => ['create', 'view', 'edit', 'delete', 'cancel'],
+        ];
+
+        foreach ($modules as $moduleName => $actions) {
+            // Create or get the permission category
+            $category = PermissionCategory::firstOrCreate(['name' => $moduleName]);
+
+            foreach ($actions as $index => $action) {
+                $permissionName = strtolower($moduleName) . '.' . $action;
+
+                Permission::updateOrCreate(
+                    ['name' => $permissionName, 'permission_category_id' => $category->id],
+                    ['sort_order' => $index + 1]
+                );
+            }
+        }
+    }
+}
