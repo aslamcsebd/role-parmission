@@ -11,26 +11,7 @@ use App\Models\PermissionCategory;
 class RoleController extends Controller
 {
 	// User role
-	public function userRole2(Request $request)
-	{
-		$roles = Role::all();
-		$roleId = $request->query('role_id');
-
-		if ($roleId) {
-			$users = User::whereHas('roles', function ($q) use ($roleId) {
-				$q->where('roles.id', $roleId);
-			})->with('roles')->get();
-
-			$selectedRole = Role::find($roleId);
-		} else {
-			$users = User::with('roles')->get();
-			$selectedRole = null;
-		}
-
-		return view('role-permission.user-role', compact('users', 'roles', 'selectedRole'));
-	}
-
-	public function userRole(Request $request)
+	public function userRoles(Request $request)
 	{
 		$roles = Role::all();
 		$roleName = $request->query('role_name');
@@ -48,8 +29,6 @@ class RoleController extends Controller
 		return view('role-permission.user-role', compact('users', 'roles', 'selectedRole'));
 	}
 
-
-
 	public function assignRole(Request $request)
 	{
 		$request->validate([
@@ -60,7 +39,7 @@ class RoleController extends Controller
 		$user = User::find($request->user_id);
 		$user->roles()->sync([$request->role_id]);
 
-		return redirect()->route('role.userRole')->with('success', 'Role assigned successfully.');
+		return redirect()->route('user_roles.index')->with('success', 'Role assigned successfully.');
 	}
 
 	// Role
@@ -70,7 +49,7 @@ class RoleController extends Controller
 		return view('role-permission.roles', $data);
 	}
 
-	public function roleCreate(Request $request)
+	public function storeRole(Request $request)
 	{
 		$request->validate(['name' => 'required|unique:roles,name']);
 
@@ -88,7 +67,7 @@ class RoleController extends Controller
 		return view('role-permission.edit-permissions', $data);
 	}
 
-	public function updatePermission(Request $request, Role $role)
+	public function updatePermissions(Request $request, Role $role)
 	{
 		$request->validate([
 			'permission_id' => 'required|exists:permissions,id',
@@ -115,7 +94,7 @@ class RoleController extends Controller
 		return view('role-permission.permissions', $data);
 	}
 
-	public function permission_category(Request $request)
+	public function storePermissionCategory(Request $request)
 	{
 		$request->validate(['permission_category' => 'required|unique:permission_categories,name']);
 
@@ -123,7 +102,7 @@ class RoleController extends Controller
 		return back()->with('success', 'Permission category created successfully.');
 	}
 
-	public function permissionStore(Request $request)
+	public function storePermission(Request $request)
 	{
 		$request->validate([
 			'permission' => 'required|string',

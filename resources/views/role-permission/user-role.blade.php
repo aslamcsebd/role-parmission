@@ -35,7 +35,7 @@
                                                 <em>No role assigned</em>
                                             @endif
                                         </td>
-                                        <form method="POST" action="{{ route('role.assignRole') }}">
+                                        <form method="POST" action="{{ route('user_roles.assign') }}">
                                             @csrf
                                             <input type="hidden" name="user_id" value="{{ $user->id }}">
                                             <td class="text-center align-middle">
@@ -56,7 +56,6 @@
 													<i class="fa-regular fa-pen-to-square pe-1"></i>
 													Update
 												</button>
-												<button>Delete</button>
                                             </td>
                                         </form>
                                     </tr>

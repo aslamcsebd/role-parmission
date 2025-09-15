@@ -9,11 +9,11 @@
             <div class="col-md-12 px-0">
                 <div class="card border border-danger">
                     <div class="card-header p-1 mb-1">
-                        <form action="{{ route('roles.create') }}" method="POST" class="d-flex align-items-start">
+                        <form action="{{ route('roles.store') }}" method="POST" class="d-flex align-items-start">
                             @csrf
                             <input type="text" name="name" class="form-control me-2 py-1 border border-primary w-auto"
                                 placeholder="Role name [User, Editor]" required>
-                            <button type="submit" class="btn btn-outline-primary py-1">
+                            <button type="submit" class="btn btn-primary py-1">
                                 <i class="fa-solid fa-plus pe-1"></i>
                                 Create role
                             </button>
@@ -37,8 +37,8 @@
                                         <td class="center align-middle">{{ $loop->iteration }}</td>
                                         <td class="align-middle">{{ $role->name }}</td>
                                         <td class="align-middle center">
-                                            {{-- <a href="{{ route('role.userRole', ['role_id' => $role->id]) }}"> --}}
-                                            <a href="{{ route('role.userRole', ['role_name' => $role->name]) }}">
+                                            {{-- <a href="{{ route('user_roles.index', ['role_id' => $role->id]) }}"> --}}
+                                            <a href="{{ route('user_roles.index', ['role_name' => $role->name]) }}">
                                                 <span class="badge text-bg-warning px-3 copy-permission"
                                                     title="Click to view {{ $role->name }}">
                                                     {{ $role->users->count() }}
@@ -51,7 +51,7 @@
                                             </span>
                                         </td>
                                         <td class="center">
-                                            <a href="{{ route('roles.editPermissions', $role->id) }}"
+                                            <a href="{{ route('roles.edit_permissions', $role->id) }}"
                                                 class="btn btn-sm btn-outline-primary">
                                                 <i class="fa-regular fa-pen-to-square pe-1"></i>
                                                 Edit Permissions

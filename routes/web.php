@@ -13,19 +13,22 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/auth', [HomeController::class, 'auth'])->name('auth');
 
+Route::controller(RoleController::class)->group(function () {
+	// --- User Roles (assigning roles to users) ---
+	Route::get('user-roles', 'userRoles')->name('user_roles.index');
+	Route::post('user-roles/assign', 'assignRole')->name('user_roles.assign');
+	
+	// Roles
+	Route::get('roles', 'roles')->name('roles.index');
+	Route::post('roles', 'storeRole')->name('roles.store');
+	Route::get('roles/{role}/edit-permissions', 'editPermissions')->name('roles.edit_permissions');
+	Route::post('roles/{role}/update-permission', 'updatePermissions')->name('roles.update_permissions');
+    // Route::put('roles/{role}/permissions', 'updatePermissions');
+	
+	// --- Permission Categories ---
+    Route::post('permission-categories', 'storePermissionCategory')->name('permission_categories.store');
 
-
-// User role
-Route::get('user-role', [RoleController::class, 'userRole'])->name('role.userRole');
-Route::post('assign-role', [RoleController::class, 'assignRole'])->name('role.assignRole');
-
-// Roles
-Route::get('roles', [RoleController::class, 'roles'])->name('roles.index');
-Route::post('roles/create', [RoleController::class, 'roleCreate'])->name('roles.create');
-Route::get('roles/{role}/edit-permissions', [RoleController::class, 'editPermissions'])->name('roles.editPermissions');
-Route::post('roles/{role}/update-permission', [RoleController::class, 'updatePermission']);
-
-//Permissions
-Route::get('/permissions', [RoleController::class, 'permissions']);
-Route::post('permission_category/store', [RoleController::class, 'permission_category'])->name('permission_category.store');
-Route::post('permissions/store', [RoleController::class, 'permissionStore'])->name('permissions.store'); 
+	//Permissions
+	Route::get('permissions', 'permissions')->name('permissions.index');
+	Route::post('permissions', 'storePermission')->name('permissions.store');
+});

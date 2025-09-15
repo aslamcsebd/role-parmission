@@ -23,7 +23,7 @@
                     <div class="card-header p-1">
                         <div class="row align-items-start g-0">
                             <div class="col-md-4 border-end pe-md-2 mb-4 mb-md-0">
-                                <form action="{{ route('permission_category.store') }}" method="POST"
+                                <form action="{{ route('permission_categories.store') }}" method="POST"
                                     class="row g-3 align-items-end">
                                     @csrf
                                     <div class="col-md-7">

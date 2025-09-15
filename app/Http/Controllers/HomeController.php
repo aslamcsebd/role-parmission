@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
+use App\Models\Permission;
 use Illuminate\Http\Request;
+use App\Models\PermissionCategory;
 
 class HomeController extends Controller
 {
@@ -16,19 +19,24 @@ class HomeController extends Controller
     {
         $data['types'] = [
             [
-                'link'  => url('title-1'),
+                'link'  => route('user_roles.index'),
                 'value' => User::count(),
-                'title' => 'Title 1'
+                'title' => 'Total user'
             ],
             [
-                'link'  => route('home'),
-                'value' => User::count(),
-                'title' => 'Title 2'
+                'link'  => route('roles.index'),
+                'value' => Role::count(),
+                'title' => 'Total role'
             ],
             [
-                'link'  => url('title-3'),
-                'value' => User::count(),
-                'title' => 'Title 3'
+                'link'  => route('permissions.index'),
+                'value' => PermissionCategory::count(),
+                'title' => 'Total Permission Category'
+            ],
+			[
+                'link'  => route('permissions.index'),
+                'value' => Permission::count(),
+                'title' => 'Total Permission'
             ],
         ];
 

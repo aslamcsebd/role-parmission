@@ -7,29 +7,27 @@
             @php
                 $colors = [
                     'text-bg-primary',
-                    'text-bg-secondary',
-                    'text-bg-success',
                     'text-bg-info',
-                    'text-bg-warning',
+                    'text-bg-success',
                     'text-bg-danger',
+                    'text-bg-warning',
                     'text-bg-light',
+                    'text-bg-secondary',
                     'text-bg-dark',
                 ];
 
                 $icon = [
-                    'fa-solid fa-plane-up',
-                    'fa-solid fa-bell',
-                    'fa-solid fa-lightbulb',
-                    'fa-solid fa-user-gear',
-                    'fa-solid fa-wifi',
-                    'fa-solid fa-globe',
+					'fa-solid fa-users',
+					'fa-solid fa-user-lock',
+					'fa-solid fa-folder-tree',
+					'fa-solid fa-users-gear'
                 ];
             @endphp
 
             @foreach ($types as $key => $item)
                 <div class="col-lg-3 col-6">
                     <a href="{{ $item['link'] }}" class="text-decoration-none">
-                        <div class="small-box {{ $colors[$key % count($colors)] }} py-3">
+                        <div class="small-box {{ $colors[$key % count($colors)] }} py-1">
                             <div class="inner">
                                 <h3>{{ $item['value'] ?? 0 }}</h3>
                                 <h5>{{ $item['title'] }}</h5>
@@ -39,18 +37,6 @@
                     </a>
                 </div>
             @endforeach
-
-            <div class="col-lg-3 col-6">
-                <a href="#" class="text-decoration-none">
-                    <div class="small-box text-bg-warning py-3">
-                        <div class="inner">
-                            <h3>53<sup class="fs-5">%</sup></h3>
-                            <h5>Service Rate</h5>
-                        </div>
-                        <i class="fa-brands fa-aws small-box-icon"></i>
-                    </div>
-                </a>
-            </div>
         </div>
     </div>
 @endsection

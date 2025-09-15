@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        <title>@yield('title', 'My Laravel App')</title>
+        <title>@yield('title', 'Role & permission')</title>
         @include('layouts.head')
         @yield('css')
     </head>
