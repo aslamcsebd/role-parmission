@@ -2,9 +2,6 @@
 
 @section('content')
     <div class="container-fluid pt-2">
-        @if (session('success'))
-            <div style="color:green">{{ session('success') }}</div>
-        @endif
         <div class="row justify-content-center">
             <div class="col-md-12 px-0">
                 <div class="card border border-danger">
@@ -24,11 +21,11 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="center">Sl</th>
+                                    <th class="center" width="4%">Sl</th>
                                     <th>Role name</th>
-                                    <th class="center">Total user</th>
-                                    <th class="center">Total permissions</th>
-                                    <th class="center">Edit</th>
+                                    <th class="center" width="8%">Total user</th>
+                                    <th class="center" width="12%">Total permissions</th>
+                                    <th class="center" width="10%">Edit</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,7 +34,6 @@
                                         <td class="center align-middle">{{ $loop->iteration }}</td>
                                         <td class="align-middle">{{ $role->name }}</td>
                                         <td class="align-middle center">
-                                            {{-- <a href="{{ route('user_roles.index', ['role_id' => $role->id]) }}"> --}}
                                             <a href="{{ route('user_roles.index', ['role_name' => $role->name]) }}">
                                                 <span class="badge text-bg-warning px-3 copy-permission"
                                                     title="Click to view {{ $role->name }}">

@@ -2,12 +2,6 @@
 
 @section('content')
     <div class="container-fluid pt-2">
-        <div id="ajax-success" style="color:green; display:none;"></div>
-
-        @if (session('success'))
-            <div style="color:green">{{ session('success') }}</div>
-        @endif
-
         <div class="row justify-content-center">
             <div class="col-md-12 px-0">
                 <div class="card border border-danger">
@@ -54,7 +48,7 @@
                                                             id="perm{{ $permission->id }}" value="{{ $permission->id }}"
                                                             data-role="{{ $role->id }}"
                                                             {{ in_array($permission->id, $rolePermissions) ? 'checked' : '' }}>
-                                                        <label class="form-check-label me-3"
+                                                        <label class="form-check-label me-2"
                                                             for="perm{{ $permission->id }}">
                                                             {{ $permission->name }}
                                                         </label>
@@ -74,6 +68,9 @@
 @endsection
 @section('js')
     <script>
+        // preload route with placeholder
+        const updatePermissionUrl = "{{ route('roles.update_permissions', ['role' => ':id']) }}";
+
         // parent toggle (no change, just trigger AJAX for each child)
         document.querySelectorAll('.category-master').forEach(masterCheckbox => {
             masterCheckbox.addEventListener('change', function() {
@@ -94,17 +91,20 @@
             if (master) master.checked = allChecked;
         }
 
-        // AJAX call function
+        // ✅ AJAX call function with SweetAlert2
         function triggerAjax(checkbox) {
             let roleId = checkbox.dataset.role;
             let permId = checkbox.value;
             let isChecked = checkbox.checked;
 
-            fetch(`/roles/${roleId}/update-permission`, {
+            // replace placeholder with actual ID
+            let url = updatePermissionUrl.replace(':id', roleId);
+
+            fetch(url, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                     },
                     body: JSON.stringify({
                         permission_id: permId,
@@ -113,16 +113,23 @@
                 })
                 .then(res => res.json())
                 .then(data => {
-                    let msgBox = document.getElementById('ajax-success');
-                    msgBox.innerText = data.message;
-                    msgBox.style.display = 'block';
-
-                    // auto-hide after 3s
-                    setTimeout(() => {
-                        msgBox.style.display = 'none';
-                    }, 3000);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: data.message,
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
                 })
-                .catch(err => console.error(err));
+                .catch(err => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Something went wrong',
+                        confirmButtonText: 'OK'
+                    });
+                    console.error(err);
+                });
         }
 
         // child checkbox listener
@@ -147,9 +154,7 @@
             const allCategories = document.querySelectorAll('.category-master');
             allCategories.forEach(cat => {
                 cat.checked = this.checked;
-
-                // trigger category change (so it updates children + AJAX)
-                cat.dispatchEvent(new Event('change'));
+                cat.dispatchEvent(new Event('change')); // trigger category change
             });
         });
 

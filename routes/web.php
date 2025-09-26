@@ -20,15 +20,17 @@ Route::controller(RoleController::class)->group(function () {
 	
 	// Roles
 	Route::get('roles', 'roles')->name('roles.index');
-	Route::post('roles', 'storeRole')->name('roles.store');
+	Route::post('roles', 'storeRole')->name('roles.store'); 
 	Route::get('roles/{role}/edit-permissions', 'editPermissions')->name('roles.edit_permissions');
 	Route::post('roles/{role}/update-permission', 'updatePermissions')->name('roles.update_permissions');
-    // Route::put('roles/{role}/permissions', 'updatePermissions');
-	
+	// Top done
+
 	// --- Permission Categories ---
-    Route::post('permission-categories', 'storePermissionCategory')->name('permission_categories.store');
+    Route::post('permission-categories', 'storePermissionCategory')->name('permission_categories.store'); //2
 
 	//Permissions
-	Route::get('permissions', 'permissions')->name('permissions.index');
-	Route::post('permissions', 'storePermission')->name('permissions.store');
+	Route::get('permissions', 'permissions')->name('permissions.index'); //1
+	Route::post('permissions', 'storePermission')->name('permissions.store'); //3
 });
+
+// Sometable pagination should remove, and how to add dynamic parmission insert in database this task is very inportant

@@ -5,6 +5,7 @@
 <meta name="author" content="ColorlibHQ">
 <meta name="description" content="AdminLTE Bootstrap 5 Admin Dashboard">
 <meta name="keywords" content="Bootstrap 5 admin dashboard">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css">
 <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,700&amp;subset=cyrillic'>

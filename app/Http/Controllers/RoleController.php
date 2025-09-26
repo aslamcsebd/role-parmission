@@ -15,7 +15,7 @@ class RoleController extends Controller
 	{
 		$roles = Role::all();
 		$roleName = $request->query('role_name');
-
+	
 		if ($roleName) {
 			$selectedRole = Role::where('name', $roleName)->first();
 			$users = $selectedRole
@@ -39,9 +39,9 @@ class RoleController extends Controller
 		$user = User::find($request->user_id);
 		$user->roles()->sync([$request->role_id]);
 
-		return redirect()->route('user_roles.index')->with('success', 'Role assigned successfully.');
+		return back()->with('success', 'Role assigned successfully');
 	}
-
+	
 	// Role
 	public function roles()
 	{
@@ -54,9 +54,9 @@ class RoleController extends Controller
 		$request->validate(['name' => 'required|unique:roles,name']);
 
 		Role::insert(['name' => $request->name]);
-		return redirect()->route('roles.index')->with('success', 'Role created successfully');
+		return back()->with('success', 'Role created successfully');
 	}
-
+	
 	// Parmission
 	public function editPermissions(Role $role)
 	{
@@ -84,7 +84,7 @@ class RoleController extends Controller
 			$role->permissions()->detach($request->permission_id);
 		}
 
-		return response()->json(['message' => 'Permission updated successfully.']);
+		return response()->json(['message' => 'Permission updated successfully']);
 	}
 
 	// Permissions	
@@ -99,7 +99,7 @@ class RoleController extends Controller
 		$request->validate(['permission_category' => 'required|unique:permission_categories,name']);
 
 		PermissionCategory::insert(['name' => $request->permission_category]);
-		return back()->with('success', 'Permission category created successfully.');
+		return back()->with('success', 'Permission category created successfully');
 	}
 
 	public function storePermission(Request $request)
@@ -123,6 +123,6 @@ class RoleController extends Controller
 			'permission_category_id' => $request->permission_category_id,
 		]);
 
-		return redirect()->back()->with('success', 'Permission created successfully!');
+		return back()->with('success', 'Permission created successfully');
 	}
 }

@@ -2,10 +2,6 @@
 
 @section('content')
     <div class="container-fluid pt-2">
-        @if (session('success'))
-            <div style="color:green">{{ session('success') }}</div>
-        @endif
-
         <div class="row justify-content-center">
             <div class="col-md-12 px-0">
                 <div class="card border border-danger">
@@ -14,12 +10,12 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th class="center">Sl</th>
+                                    <th class="center" width="4%">Sl</th>
                                     <th class="">Name</th>
                                     <th class="">Email</th>
-                                    <th class="center">Current role</th>
-                                    <th class="center">Assign new role</th>
-                                    <th class="center">Action</th>
+                                    <th class="center" width="10%">Current role</th>
+                                    <th class="center" width="10%">Assign new role</th>
+                                    <th class="center" width="8%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
