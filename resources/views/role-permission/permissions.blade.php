@@ -147,4 +147,14 @@
             });
         });
     </script>
+
+	<script>
+		$(document).ready(function() {
+			var table = $('.table').DataTable({
+				"pageLength": -1,
+				"lengthMenu": [[-1], ["All"]],
+				"order": [[0, "desc"]] 
+			});
+		});
+	</script>
 @endsection

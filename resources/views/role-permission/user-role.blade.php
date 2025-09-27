@@ -13,8 +13,8 @@
                                     <th class="center" width="4%">Sl</th>
                                     <th class="">Name</th>
                                     <th class="">Email</th>
-                                    <th class="center" width="10%">Current role</th>
-                                    <th class="center" width="10%">Assign new role</th>
+                                    <th class="center">Current role</th>
+                                    <th class="center">Assign new role</th>
                                     <th class="center" width="8%">Action</th>
                                 </tr>
                             </thead>
@@ -63,4 +63,16 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+	<script>
+		$(document).ready(function() {
+			var table = $('.table').DataTable({
+				"pageLength": -1,
+				"lengthMenu": [[-1], ["All"]],
+				"order": [[0, "desc"]] 
+			});
+		});
+	</script>
 @endsection

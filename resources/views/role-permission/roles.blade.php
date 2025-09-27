@@ -23,9 +23,9 @@
                                 <tr>
                                     <th class="center" width="4%">Sl</th>
                                     <th>Role name</th>
-                                    <th class="center" width="8%">Total user</th>
-                                    <th class="center" width="12%">Total permissions</th>
-                                    <th class="center" width="10%">Edit</th>
+                                    <th class="center">Total user</th>
+                                    <th class="center">Total permissions</th>
+                                    <th class="center" idth="10%">Edit</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,4 +79,14 @@
             document.querySelectorAll('.copy-permission').forEach(el => new bootstrap.Tooltip(el))
         );
     </script>
+
+	<script>
+		$(document).ready(function() {
+			var table = $('.table').DataTable({
+				"pageLength": -1,
+				"lengthMenu": [[-1], ["All"]],
+				"order": [[0, "desc"]] 
+			});
+		});
+	</script>
 @endsection
