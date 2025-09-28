@@ -1,5 +1,17 @@
 @extends('layouts.app')
 
+@php
+	$colors = [
+		'badge rounded-pill text-bg-primary',
+		'badge rounded-pill text-bg-info',
+		'badge rounded-pill text-bg-success',
+		'badge rounded-pill text-bg-danger',
+		'badge rounded-pill text-bg-warning',
+		'badge rounded-pill text-bg-secondary',
+		'badge rounded-pill text-bg-dark',
+	];
+@endphp
+
 @section('content')
     <div class="container-fluid pt-2">
         <div class="row justify-content-center">
@@ -19,18 +31,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($users as $key => $user)
                                     <tr>
                                         <td class="center align-middle">{{ $loop->iteration }}</td>
                                         <td class="align-middle">{{ $user->name }}</td>
                                         <td class="align-middle">{{ $user->email }}</td>
-                                        <td class="center align-middle">
-                                            @if ($user->roles->isNotEmpty())
-                                                {{ $user->roles->pluck('name')->implode(', ') }}
-                                            @else
-                                                <em>No role assigned</em>
-                                            @endif
-                                        </td>
+										<td class="center align-middle">
+											@if ($user->roles->isNotEmpty())
+												@foreach ($user->roles as $index => $role)
+													<span class="{{ $colors[($key + $index) % count($colors)] }}">
+														{{ $role->name }}
+													</span>
+												@endforeach
+											@else
+												<em>No role assigned</em>
+											@endif
+										</td>
                                         <form method="POST" action="{{ route('user_roles.assign') }}">
                                             @csrf
                                             <input type="hidden" name="user_id" value="{{ $user->id }}">
@@ -71,7 +87,7 @@
 			var table = $('.table').DataTable({
 				"pageLength": -1,
 				"lengthMenu": [[-1], ["All"]],
-				"order": [[0, "desc"]] 
+				// "order": [[0, "desc"]] 
 			});
 		});
 	</script>

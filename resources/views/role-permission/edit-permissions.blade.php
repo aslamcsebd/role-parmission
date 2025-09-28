@@ -19,8 +19,7 @@
                                         <th>
                                             <div class="form-check">
                                                 <input class="form-check-input" type="checkbox" id="globalMaster">
-                                                <label class="form-check-label fw-bold" for="globalMaster">All
-                                                    Categories</label>
+                                                <label class="form-check-label fw-bold" for="globalMaster">All Categories</label>
                                             </div>
                                         </th>
                                         <th>Permission name</th>
@@ -29,26 +28,24 @@
                                 <tbody>
                                     @foreach ($categories as $category)
                                         <tr>
-                                            <td class="fw-bold align-middle" style="width: 30%; white-space: normal;">
+                                            <td class="fw-bold">
                                                 <div class="form-check">
-                                                    <input class="form-check-input category-master" type="checkbox"
+                                                    <input class="form-check-input category-master" type="checkbox" 
                                                         id="parentCheck{{ $category->id }}"
                                                         data-category="cat_{{ $category->id }}">
-                                                    <label class="form-check-label" for="parentCheck{{ $category->id }}">
-                                                        {{ $category->name }}
-                                                    </label>
+                                                    <label class="form-check-label" for="parentCheck{{ $category->id }}">{{ $category->name }}</label>
+													<span class="badge bg-secondary float-end">{{ $category->permissions->count() }}</span>
                                                 </div>
                                             </td>
-                                            <td style="white-space: normal;">
+                                            <td>
                                                 @foreach ($category->permissions as $permission)
                                                     <div class="form-check form-check-inline">
-                                                        <input
-                                                            class="form-check-input child-permission cat_{{ $category->id }}"
+                                                        <input class="form-check-input child-permission cat_{{ $category->id }}"
                                                             type="checkbox" name="permissions[]"
                                                             id="perm{{ $permission->id }}" value="{{ $permission->id }}"
                                                             data-role="{{ $role->id }}"
                                                             {{ in_array($permission->id, $rolePermissions) ? 'checked' : '' }}>
-                                                        <label class="form-check-label me-2"
+                                                        <label class="form-check-label"
                                                             for="perm{{ $permission->id }}">
                                                             {{ $permission->name }}
                                                         </label>
@@ -174,13 +171,16 @@
         window.addEventListener('DOMContentLoaded', updateGlobalMaster);
     </script>
 
-	<script>
-		$(document).ready(function() {
-			var table = $('.table').DataTable({
-				"pageLength": -1,
-				"lengthMenu": [[-1], ["All"]],
-				"order": [[0, "desc"]] 
-			});
-		});
-	</script>
+    <script>
+        $(document).ready(function() {
+            var table = $('.table').DataTable({
+                "pageLength": -1,
+                "lengthMenu": [
+                    [-1],
+                    ["All"]
+                ],
+                // "order": [[0, "desc"]] 
+            });
+        });
+    </script>
 @endsection

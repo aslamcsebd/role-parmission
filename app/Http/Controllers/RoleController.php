@@ -13,20 +13,21 @@ class RoleController extends Controller
 	// User role
 	public function userRoles(Request $request)
 	{
-		$roles = Role::all();
+		$data['roles'] = Role::all();
 		$roleName = $request->query('role_name');
 	
 		if ($roleName) {
 			$selectedRole = Role::where('name', $roleName)->first();
-			$users = $selectedRole
-				? $selectedRole->users()->with('roles')->get()
-				: collect(); // empty if role not found
+			$users = $selectedRole ? $selectedRole->users()->with('roles')->get() : collect(); 
+			// empty if role not found
 		} else {
 			$users = User::with('roles')->get();
 			$selectedRole = null;
 		}
 
-		return view('role-permission.user-role', compact('users', 'roles', 'selectedRole'));
+		$data['users'] = $users;
+
+		return view('role-permission.user-role', $data);
 	}
 
 	public function assignRole(Request $request)
@@ -109,17 +110,20 @@ class RoleController extends Controller
 			'permission_category_id' => 'required|exists:permission_categories,id',
 		]);
 
+		// Normalize permission: lowercase + replace spaces with underscores
+		$normalizedPermission = strtolower(preg_replace('/\s+/', '_', $request->permission));
+
 		// Prevent duplicate permission in same category
-		$exists = Permission::where('name', $request->permission)
+		$exists = Permission::where('name', $normalizedPermission)
 			->where('permission_category_id', $request->permission_category_id)
 			->exists();
 
 		if ($exists) {
-			return back()->withErrors(['name' => 'This permission already exists in this category']);
+			return back()->withErrors(['permission' => 'This permission already exists in this category']);
 		}
 
 		Permission::insert([
-			'name' => $request->permission,
+			'name' => $normalizedPermission,
 			'permission_category_id' => $request->permission_category_id,
 		]);
 

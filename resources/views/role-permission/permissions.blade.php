@@ -36,6 +36,7 @@
                                     </div>
                                 </form>
                             </div>
+
                             <div class="col-md-8 ps-md-2">
                                 <form action="{{ route('permissions.store') }}" method="POST"
                                     class="row g-3 align-items-end">
@@ -43,17 +44,20 @@
                                     <div class="col-md-4">
                                         <label for="permission_category_id" class="form-label fs-5 mb-0">Permission
                                             category</label>
-                                        <select class="form-select py-1" name="permission_category_id" required>
+                                        <select class="form-select py-1" id="permission_category_id"
+                                            name="permission_category_id" required>
                                             <option value="">Select category</option>
                                             @foreach ($categories as $category)
-                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                <option value="{{ $category->id }}" data-name="{{ $category->name }}">
+                                                    {{ $category->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-5">
                                         <label for="permission" class="form-label fs-5 mb-0">Permission name</label>
-                                        <input type="text" name="permission" class="form-control py-1"
-                                            placeholder="users.create, users.view" required>
+                                        <input type="text" id="permission" name="permission" class="form-control py-1"
+                                            placeholder="create.users, view.users" required>
                                     </div>
                                     <div class="col-md-3 pt-md-4">
                                         <button type="submit" class="btn btn-primary w-100 py-1">
@@ -70,6 +74,7 @@
                         <table class="table table-bordered align-middle mb-0">
                             <thead class="table-light">
                                 <tr>
+                                    <th class="center" width="3%">Sl</th>
                                     <th>
                                         <i class="fas fa-layer-group me-1 text-primary"></i>
                                         Category name
@@ -82,16 +87,16 @@
                             </thead>
                             <tbody>
                                 @forelse($categories as $category)
-                                    <tr>
+                                    <tr >
+                                        <td class="center">{{ $loop->iteration }}</td>
                                         <td class="fw-semibold text-dark">
                                             <i class="fas fa-folder me-1 text-secondary"></i> {{ $category->name }}
-                                            <span
-                                                class="badge bg-secondary float-end">{{ $category->permissions->count() }}</span>
+                                            <span class="badge bg-secondary float-end">{{ $category->permissions->count() }}</span>
                                         </td>
                                         <td>
                                             @if ($category->permissions->isNotEmpty())
                                                 @foreach ($category->permissions as $permission)
-                                                    <span class="badge bg-light border text-dark me-1 copy-permission"
+                                                    <span class="badge border border-primary text-dark fs-6 fw-normal me-1 copy-permission"
                                                         role="button" style="cursor: pointer;"
                                                         data-permission="{{ $permission->name }}" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Click to copy">
@@ -123,6 +128,29 @@
 
 @section('js')
     <script>
+        // After select category
+        document.getElementById('permission_category_id').addEventListener('change', function() {
+            let selectedOption = this.options[this.selectedIndex];
+            let categoryName = selectedOption.getAttribute('data-name');
+
+            if (categoryName) {
+                // Convert to lowercase and replace spaces with underscores
+                categoryName = categoryName.toLowerCase().replace(/\s+/g, '_');
+
+                let input = document.getElementById('permission');
+                input.value = "." + categoryName;
+
+                // Place cursor at the beginning (before the dot)
+                setTimeout(() => {
+                    input.focus();
+                    input.setSelectionRange(0, 0);
+                }, 50);
+            } else {
+                document.getElementById('permission').value = '';
+            }
+        });
+
+        // Copy permission
         document.addEventListener('DOMContentLoaded', function() {
             const elements = document.querySelectorAll('.copy-permission');
 
@@ -146,15 +174,17 @@
                 });
             });
         });
-    </script>
 
-	<script>
-		$(document).ready(function() {
-			var table = $('.table').DataTable({
-				"pageLength": -1,
-				"lengthMenu": [[-1], ["All"]],
-				"order": [[0, "desc"]] 
-			});
-		});
-	</script>
+        // DataTable
+        $(document).ready(function() {
+            var table = $('.table').DataTable({
+                "pageLength": -1,
+                "lengthMenu": [
+                    [-1],
+                    ["All"]
+                ],
+                // "order": [[0, "desc"]] 
+            });
+        });
+    </script>
 @endsection

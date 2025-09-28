@@ -9,6 +9,8 @@ class Permission extends Model
 {
     use HasFactory;
 	protected $fillable = ['name', 'permission_category_id'];
+
+	public $timestamps = false;
 	
 	public function roles()
 	{

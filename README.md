@@ -10,5 +10,7 @@
 - php artisan make:migration create_role_user_table
 - php artisan make:migration create_permission_role_table
 
+- php artisan db:seed --class=AdminRolesAndPermissionsSeeder
+
 final
 https://chatgpt.com/c/68410e1b-e40c-8003-8af9-3a76be7f3290

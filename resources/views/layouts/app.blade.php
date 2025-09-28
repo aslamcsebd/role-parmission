@@ -4,6 +4,18 @@
         <title>@yield('title', 'Role & permission')</title>
         @include('layouts.head')
         @yield('css')
+		@php
+			$colors = [
+				'badge text-bg-primary',
+				'badge text-bg-info',
+				'badge text-bg-success',
+				'badge text-bg-danger',
+				'badge text-bg-warning',
+				// 'badge text-bg-light',
+				'badge text-bg-secondary',
+				'badge text-bg-dark',
+			];
+		@endphp
     </head>
     <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
         <div class="app-wrapper">
